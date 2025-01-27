@@ -6,8 +6,11 @@ export class DatabaseController {
   constructor(private readonly databaseService: DatabaseService) {}
 
   @Post('query')
-  async executeQuery(@Body('query') query: string): Promise<any> {
-    const result = await this.databaseService.query(query);
+  async query(
+    @Body('query') query: string, 
+    @Body('params') params?: any[]
+  ): Promise<any> {
+    const result = await this.databaseService.query(query, params);
     return result.rows;
   }
 }

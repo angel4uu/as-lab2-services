@@ -8,7 +8,7 @@ export class DatabaseService{
   constructor() {
     this.pool = new Pool({
       user: 'user',
-      host: 'localhost',
+      host: 'data_access',
       database: 'university',
       password: 'password',
       port: 5432,
@@ -16,6 +16,11 @@ export class DatabaseService{
   }
 
   async query(text: string, params?: any[]) {
-    return this.pool.query(text, params);
+    try {
+      return await this.pool.query(text, params);
+    } catch (error) {
+      console.error('Database query error:', error);
+      throw new Error('Failed to execute query');
+    }
   }
 }
